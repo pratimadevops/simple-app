@@ -1,25 +1,21 @@
-pipeline 
-{
+pipeline {
     agent any
-    tools 
-    {
+    tools{
         maven 'maven3'
     }
+    options {
+        buildDiscarder logRotator(daysToKeppStr: '5', numToKeepStr: '7')
+    }
     
-    stages
-    {
-        stage('Build')
-        {
-            steps
-            {
+    stages{
+        stage('Build')        {
+            steps            {
                 sh script: 'mvn clean package'                
             }
         }        
     
-        stage('Upload war file to Nexus')
-        {
-            steps
-            {
+        stage('Upload war file to Nexus'){
+            steps{
                 script{                    
                     def mavenPom = readMavenPom file: 'pom.xml'
                     def nexusRepoName = mavenPom.version.endsWith("SNAPSHOT") ? "simpleapp-snapshot" : "simpleapp-release"
