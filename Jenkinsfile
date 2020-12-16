@@ -12,7 +12,7 @@ pipeline
         {
             steps
             {
-                 sh script: 'mvn clean package'                
+                sh script: 'mvn clean package'                
             }
         }        
     
@@ -20,8 +20,10 @@ pipeline
         {
             steps
             {
-                def mavenPom = readMavenPom 'pom.xml'
-                nexusArtifactUploader artifacts: [
+                script
+                {
+                    def mavenPom = readMavenPom 'pom.xml'
+                    nexusArtifactUploader artifacts: [
                     [
                         artifactId: 'simple-app', 
                         classifier: '', 
@@ -36,6 +38,7 @@ pipeline
                 protocol: 'http', 
                 repository: 'simpleapp-release', 
                 version: "${mavenPom.version}"
+                }
             }
         }
     }
