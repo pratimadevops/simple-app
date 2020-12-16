@@ -1,20 +1,25 @@
-pipeline {
+pipeline 
+{
     agent any
-    tools {
+    tools 
+    {
         maven 'maven3'
     }
     
-    stages{
-        stage('Build'){
-            steps{
+    stages
+    {
+        stage('Build')
+        {
+            steps
+            {
                  sh script: 'mvn clean package'                
             }
         }        
-    }
     
-    stages{
-        stage('Upload war file to Nexus'){
-            steps{
+        stage('Upload war file to Nexus')
+        {
+            steps
+            {
                 nexusArtifactUploader artifacts: [
                     [
                         artifactId: 'simple-app', 
